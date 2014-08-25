@@ -1,0 +1,110 @@
+__author__ = 'auren'
+
+from random import *
+
+def rullatarning ():
+    global t1; global t2; global t3; global t4; global t5
+    t1 = randint(1, 6)
+    t2 = randint(1, 6)
+    t3 = randint(1, 6)
+    t4 = randint(1, 6)
+    t5 = randint(1, 6)
+    return
+
+def printtarning():
+    print str(t1) + ' | ' + str(t2) + ' | ' + str(t3) + ' | ' + str(t4) + ' | ' + str(t5)
+    return
+
+def rullanya():
+    global t1; global t2; global t3; global t4; global t5
+    kastaom = raw_input('Vill du kasta om? Y/N ')
+    if kastaom == 'y' or kastaom == 'Y':
+        spara = raw_input('Vill du kasta om 1:a trningen? Y/N ')
+        if spara == 'y' or spara == 'Y':
+            t1 = randint(1, 6)
+        spara = raw_input('Vill du kasta om 2:a trningen? Y/N ')
+        if spara == 'y' or spara == 'Y':
+            t2 = randint(1, 6)
+        spara = raw_input('Vill du kasta om 3:e trningen? Y/N ')
+        if spara == 'y' or spara == 'Y':
+            t3 = randint(1, 6)
+        spara = raw_input('Vill du kasta om 4:e trningen? Y/N ')
+        if spara == 'y' or spara == 'Y':
+            t4 = randint(1, 6)
+        spara = raw_input('Vill du kasta om 5:e trningen? Y/N ')
+        if spara == 'y' or spara == 'Y':
+            t5 = randint(1, 6)
+    return
+
+def poang():
+
+    global t1; global t2; global t3; global t4; global t5;
+    rullade = [t1, t2, t3, t4, t5]
+
+    for i in range(1, 6):
+
+        mojligt = []
+        for i in range(17):
+            mojligt.append(0)
+
+        x = rullade.count(i)
+
+        if x == 5: #Yatzy
+            mojligt[0] = ( i * 5 )
+            mojligt[1] = ( i * 4 )
+            mojligt[2] = ( i * 3 )
+            mojligt[3] = ( i * 2 )
+
+        if x == 4: #Fyrtal
+            mojligt[1] = ( i * 4 )
+            mojligt[2] = ( i * 3 )
+            mojligt[3] = ( i * 2 )
+
+        if x == 3: #Triss
+            mojligt[2] = ( i * 3 )
+            mojligt[3] = ( i * 2 )
+
+        if x == 2: #Par
+            if mojligt[4] == 0:
+                mojligt[4] = ( i * 2 )
+            elif mojligt[4] != 0: # Ett eller tva par
+                mojligt[5] = ( i * 2 )
+
+    if mojligt[2] != 0 and mojligt[4] != 0: #Kak
+        mojligt[6] = mojligt[2] + mojligt[4]
+
+    if mojligt[4] != 0 and mojligt[5] != 0: #Tva par
+        mojligt[7] = mojligt[4] + mojligt[5]
+
+    rullade.sort()
+    if rullade[0] == 1 and rullade[1] == 2 and rullade[2] == 3 and rullade[3] == 4 and rullade[4] == 5: #Liten stege
+        mojligt[8] = 15
+    elif rullade[0] == 2 and rullade[1] == 3 and rullade[2] == 4 and rullade[3] == 5 and rullade[4] == 6: #Stor Stege
+        mojligt[9] = 20
+
+    for i in range(1,6): # Alla 1:or -> 6:or
+        mojligt[9 + i] = rullade.count(i)
+
+    mojligt[16] = sum(rullade) #Chans
+
+    return
+# TESTA!!!!!!
+
+
+
+
+
+x = int(raw_input('Antal spelare? '))
+
+
+for i in range(1, x+1):
+    print '\n' + 'SPELARE ' + str(i) + ':S 1:A KAST'
+    rullatarning()
+    printtarning()
+    rullanya()
+    print '\n' + 'SPELARE ' + str(i) + ':S 2:A KAST'
+    printtarning()
+    rullanya()
+    print '\n' + 'SPELARE ' + str(i) + ':S 3:E KAST'
+    printtarning()
+    poang()
